@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=3 uid="uid://cc11wa6bckuhu"]
+
+[ext_resource type="Script" path="res://Scripts/pipe.gd" id="1_14bri"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s1chx"]
+size = Vector2(20, 1280)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_ynppy"]
+a = Vector2(0, -1280)
+b = Vector2(0, 1280)
+
+[node name="Pipe" type="Node2D"]
+script = ExtResource("1_14bri")
+
+[node name="TopPipe" type="Area2D" parent="."]
+position = Vector2(0, -70)
+
+[node name="TopPipeCollision" type="CollisionShape2D" parent="TopPipe"]
+shape = SubResource("RectangleShape2D_s1chx")
+
+[node name="TopPipeColor" type="ColorRect" parent="TopPipe"]
+custom_minimum_size = Vector2(20, 1280)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -10.0
+offset_top = -640.0
+offset_right = 10.0
+offset_bottom = 640.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.231373, 0.870588, 0, 1)
+
+[node name="BottomPipe" type="Area2D" parent="."]
+position = Vector2(0, 1350)
+
+[node name="BottomPipeCollision" type="CollisionShape2D" parent="BottomPipe"]
+shape = SubResource("RectangleShape2D_s1chx")
+
+[node name="BottomPipeColor" type="ColorRect" parent="BottomPipe"]
+custom_minimum_size = Vector2(20, 1280)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -10.0
+offset_top = -640.0
+offset_right = 10.0
+offset_bottom = 640.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.231373, 0.870588, 0, 1)
+
+[node name="ScoreBound" type="Area2D" parent="."]
+
+[node name="ScoreLine" type="CollisionShape2D" parent="ScoreBound"]
+shape = SubResource("SegmentShape2D_ynppy")
+
+[connection signal="body_entered" from="TopPipe" to="." method="_on_top_pipe_body_entered"]
+[connection signal="body_entered" from="ScoreBound" to="." method="_on_score_bound_body_entered"]
