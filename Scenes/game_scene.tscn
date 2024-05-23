@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://tmsqyrl4w22i"]
+[gd_scene load_steps=6 format=3 uid="uid://tmsqyrl4w22i"]
 
 [ext_resource type="PackedScene" uid="uid://blb2s260ypb7y" path="res://Scenes/player.tscn" id="1_lf2lu"]
 [ext_resource type="Script" path="res://Scripts/game_scene.gd" id="1_skhcx"]
@@ -10,6 +10,9 @@ b = Vector2(720, 1280)
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_pn43k"]
 a = Vector2(0, -640)
 b = Vector2(0, 640)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_ywpa5"]
+b = Vector2(100, 0)
 
 [node name="GameScene" type="Node2D" groups=["MainSceneGroup"]]
 script = ExtResource("1_skhcx")
@@ -28,6 +31,9 @@ color = Color(0.141176, 0.235294, 1, 1)
 [node name="Player" parent="." instance=ExtResource("1_lf2lu")]
 position = Vector2(50, 640)
 scale = Vector2(0.2, 0.2)
+collision_layer = 3
+collision_mask = 3
+slide_on_ceiling = false
 
 [node name="Pipes" type="Node" parent="."]
 
@@ -44,11 +50,18 @@ shape = SubResource("SegmentShape2D_pn43k")
 
 [node name="PipeSpawn" type="Timer" parent="."]
 process_mode = 3
+wait_time = 2.0
 autostart = true
 
 [node name="PipeSpawner" type="Node2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(700, 640)
+position = Vector2(800, 640)
+
+[node name="Ceiling" type="StaticBody2D" parent="."]
+collision_layer = 2
+
+[node name="CeilingLine" type="CollisionShape2D" parent="Ceiling"]
+shape = SubResource("SegmentShape2D_ywpa5")
 
 [connection signal="body_entered" from="DeathBarrier" to="." method="_on_death_barrier_body_entered"]
 [connection signal="body_entered" from="DespawnPipe" to="." method="_on_despawn_pipe_body_entered"]

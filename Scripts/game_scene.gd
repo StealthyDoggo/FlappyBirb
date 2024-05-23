@@ -8,8 +8,7 @@ extends Node2D
 signal move_pipe(slide_amount)
 
 func _ready():
-	pass
-	#spawn_pipe()
+	spawn_pipe()
 
 #Process to run every frame
 func _physics_process(delta):
@@ -17,19 +16,12 @@ func _physics_process(delta):
 
 #Spawns the pipes off screen
 func spawn_pipe():
-	print("Spawning Pipe")
 	var pipe_instance: Node2D = pipe_scene.instantiate()
-	print("Setting Pipe Position")
 	pipe_instance.set_global_position(pipe_spawner.get_global_position())
-	print("Adding Pipe to Scene")
 	pipe_group.add_child(pipe_instance)
-	print("Connecting Bottom Pipe Signal")
 	pipe_instance.get_node("BottomPipe").body_entered.connect(pipe_entered)
-	print("Connecting Top Pipe Signal")
 	pipe_instance.get_node("TopPipe").body_entered.connect(pipe_entered)
-	print("Connecting Score Bound Signal")
 	pipe_instance.get_node("ScoreBound").body_entered.connect(add_score)
-	print("Pipe Position: " + str(pipe_instance.get_global_position()))
 
 #Moves the pipes to the left on the screen
 func move_pipes(delta):
@@ -55,5 +47,4 @@ func add_score(body: Node2D):
 
 
 func _on_pipe_spawn_timeout():
-	print("TimerExpired")
 	spawn_pipe()
