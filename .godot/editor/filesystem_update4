@@ -6,3 +6,4 @@ res://Scripts/ScoreBound.gd
 res://Singletons/game_data.gd
 res://Scripts/pipe.gd
 res://Scripts/game_scene.gd
+res://Scenes/EndGame.tscn

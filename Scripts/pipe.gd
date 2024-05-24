@@ -7,3 +7,5 @@ func _ready():
 
 func move_pipe(slide_amount):
 	global_translate(Vector2(-slide_amount, 0))
+	if global_position.x < -10:
+		queue_free()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://tmsqyrl4w22i"]
+[gd_scene load_steps=5 format=3 uid="uid://tmsqyrl4w22i"]
 
 [ext_resource type="PackedScene" uid="uid://blb2s260ypb7y" path="res://Scenes/player.tscn" id="1_lf2lu"]
 [ext_resource type="Script" path="res://Scripts/game_scene.gd" id="1_skhcx"]
@@ -6,10 +6,6 @@
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_wxso5"]
 a = Vector2(0, 1280)
 b = Vector2(720, 1280)
-
-[sub_resource type="SegmentShape2D" id="SegmentShape2D_pn43k"]
-a = Vector2(0, -640)
-b = Vector2(0, 640)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_ywpa5"]
 b = Vector2(100, 0)
@@ -28,6 +24,24 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.141176, 0.235294, 1, 1)
 
+[node name="GameCenter" type="Control" parent="Background"]
+top_level = true
+z_index = 10
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -170.0
+offset_top = -170.0
+offset_right = -130.0
+offset_bottom = -130.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
 [node name="Player" parent="." instance=ExtResource("1_lf2lu")]
 position = Vector2(50, 640)
 scale = Vector2(0.2, 0.2)
@@ -42,15 +56,9 @@ slide_on_ceiling = false
 [node name="DeathLine" type="CollisionShape2D" parent="DeathBarrier"]
 shape = SubResource("SegmentShape2D_wxso5")
 
-[node name="DespawnPipe" type="Area2D" parent="."]
-position = Vector2(-10, 640)
-
-[node name="DespawnLine" type="CollisionShape2D" parent="DespawnPipe"]
-shape = SubResource("SegmentShape2D_pn43k")
-
 [node name="PipeSpawn" type="Timer" parent="."]
 process_mode = 3
-wait_time = 2.0
+wait_time = 3.0
 autostart = true
 
 [node name="PipeSpawner" type="Node2D" parent="."]
@@ -63,6 +71,29 @@ collision_layer = 2
 [node name="CeilingLine" type="CollisionShape2D" parent="Ceiling"]
 shape = SubResource("SegmentShape2D_ywpa5")
 
+[node name="UI Background" type="ColorRect" parent="."]
+top_level = true
+custom_minimum_size = Vector2(720, 20)
+offset_right = 720.0
+offset_bottom = 40.0
+color = Color(0.364706, 0.364706, 0.364706, 0.67451)
+
+[node name="Score Label" type="Label" parent="UI Background"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -11.5
+offset_right = 30.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "SCORE: 0"
+horizontal_alignment = 1
+
 [connection signal="body_entered" from="DeathBarrier" to="." method="_on_death_barrier_body_entered"]
-[connection signal="body_entered" from="DespawnPipe" to="." method="_on_despawn_pipe_body_entered"]
 [connection signal="timeout" from="PipeSpawn" to="." method="_on_pipe_spawn_timeout"]
