@@ -6,7 +6,7 @@ extends Node2D
 var end_game_scene: PackedScene
 @onready var pipe_spawner: Node2D = $PipeSpawner
 @onready var score_label: Label = $"UI Background/Score Label"
-@onready var game_center: Control = $Background/GameCenter
+@onready var game_center: Control = $GameCenter
 
 signal move_pipe(slide_amount)
 
@@ -15,18 +15,20 @@ func _ready():
 
 #Process to run every frame
 func _physics_process(delta):
-	move_pipes(delta)
+	if GameData.playing:
+		move_pipes(delta)
 
 #Spawns the pipes off screen
 func spawn_pipe():
-	var pipe_instance: Node2D = pipe_scene.instantiate()
-	var y_offset: int = RandomNumberGenerator.new().randi_range(315,945)
-	var pipe_position: Vector2 = Vector2(pipe_spawner.get_global_position().x, pipe_spawner.get_global_position().y - y_offset)
-	pipe_instance.set_global_position(pipe_position)
-	pipe_group.add_child(pipe_instance)
-	pipe_instance.get_node("BottomPipe").body_entered.connect(pipe_entered)
-	pipe_instance.get_node("TopPipe").body_entered.connect(pipe_entered)
-	pipe_instance.get_node("ScoreBound").body_entered.connect(add_score)
+	if GameData.playing:
+		var pipe_instance: Node2D = pipe_scene.instantiate()
+		var y_offset: int = RandomNumberGenerator.new().randi_range(315,945)
+		var pipe_position: Vector2 = Vector2(pipe_spawner.get_global_position().x, pipe_spawner.get_global_position().y - y_offset)
+		pipe_instance.set_global_position(pipe_position)
+		pipe_group.add_child(pipe_instance)
+		pipe_instance.get_node("BottomPipe").body_entered.connect(pipe_entered)
+		pipe_instance.get_node("TopPipe").body_entered.connect(pipe_entered)
+		pipe_instance.get_node("ScoreBound").body_entered.connect(add_score)
 
 #Moves the pipes to the left on the screen
 func move_pipes(delta):
@@ -51,12 +53,23 @@ func _on_pipe_spawn_timeout():
 	spawn_pipe()
 
 func game_over():
-	get_tree().set_pause(true)
+	#get_tree().set_pause(true)
+	GameData.playing = false
 	if GameData.score > GameData.high_score:
 		GameData.high_score = GameData.score
 	end_game_scene = load("res://Scenes/EndGame.tscn")
 	var end_game = end_game_scene.instantiate()
-	end_game.get_node("Background/Labels/ScoreLabel").set_text("Score: " + str(GameData.score))
-	end_game.get_node("Background/Labels/HighScoreLabel").set_text("High Score: " + str(GameData.high_score))
+	end_game.get_node("Background/Layout/ScoreLabel").set_text("Score: " + str(GameData.score))
+	end_game.get_node("Background/Layout/HighScoreLabel").set_text("High Score: " + str(GameData.high_score))
 	game_center.add_child(end_game)
+	end_game.get_node("Background/Layout/Buttons/NewGameButton").pressed.connect(new_game)
+	end_game.get_node("Background/Layout/Buttons/ExitGameButton").pressed.connect(exit_game)
 	
+
+func exit_game():
+	get_tree().quit()
+
+func new_game():
+	GameData.score = 0
+	get_tree().reload_current_scene()
+	GameData.playing = true

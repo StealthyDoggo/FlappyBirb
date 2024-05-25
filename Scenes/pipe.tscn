@@ -29,7 +29,7 @@ offset_right = 10.0
 offset_bottom = 640.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.231373, 0.870588, 0, 1)
+color = Color(0.129412, 0.541176, 0, 1)
 
 [node name="BottomPipe" type="Area2D" parent="."]
 position = Vector2(0, 1350)
@@ -48,7 +48,7 @@ offset_right = 10.0
 offset_bottom = 640.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.231373, 0.870588, 0, 1)
+color = Color(0.129412, 0.541176, 0, 1)
 
 [node name="ScoreBound" type="Area2D" parent="."]
 
