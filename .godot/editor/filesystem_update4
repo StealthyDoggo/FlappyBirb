@@ -1,7 +1,4 @@
-res://Scenes/EndGame.tscn
-res://Singletons/game_data.gd
-res://Scripts/game_scene.gd
-res://Scripts/player.gd
 res://Scenes/game_scene.tscn
 res://Scenes/pipe.tscn
 res://Scenes/player.tscn
+res://Scenes/EndGame.tscn
