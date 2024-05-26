@@ -2,3 +2,4 @@ res://Scenes/game_scene.tscn
 res://Scenes/pipe.tscn
 res://Scenes/player.tscn
 res://Scenes/EndGame.tscn
+res://Scripts/player.gd
